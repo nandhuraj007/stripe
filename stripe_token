@@ -1,0 +1,44 @@
+Sure, I can help you with that. Here is a step-by-step procedure to create a bank account token in Stripe Flutter using a simple form:
+
+1. First, you need to add the `flutter_stripe` package to your project. You can do this by adding the following line to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  flutter_stripe: ^9.0.0+1
+```
+
+2. Next, import the `flutter_stripe` package in your Dart code:
+
+```dart
+import 'package:flutter_stripe/flutter_stripe.dart';
+```
+
+3. Create a form widget that contains the fields for collecting the bank account details from the user. You can use the `TextFormField` widget to create input fields for each of the required details.
+
+4. In your form widget, create a `RaisedButton` widget that triggers the creation of a bank account token when pressed. Here's an example of how you can do this:
+
+```dart
+RaisedButton(
+  child: Text('Create Bank Account Token'),
+  onPressed: () async {
+    final bankAccount = BankAccount(
+      accountHolderName: 'John Doe',
+      accountNumber: '000123456789',
+      routingNumber: '110000000',
+      countryCode: 'US',
+      currency: 'usd',
+    );
+
+    final token = await Stripe.instance.createToken(
+      CreateTokenParams.bankAccount(bankAccount: bankAccount),
+    );
+
+    print(token.id);
+  },
+);
+```
+
+5. When the user presses the button, the `createToken` method is called with a `CreateTokenParams` object that contains the bank account details entered by the user. The method returns a `TokenData` object that contains the bank account token.
+
+6. Finally, you can use the bank account token to create a customer or charge in Stripe.
+
